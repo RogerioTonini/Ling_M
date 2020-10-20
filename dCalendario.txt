@@ -18,7 +18,7 @@ let dCalend_Dinamico = (DtInicio as date, DtFim as date) as table =>
 		Trimestre  = Table.AddColumn(Ano,         "Trimestre", each Text.Combine({Number.ToText(Date.QuarterOfYear([DataBase])), " - Trim"}), type text),
 		NomeDia    = Table.AddColumn(Trimestre,   "NomeDia",   each Date.DayOfWeekName([DataBase]), type text),
 		NomeDiaAbr = Table.AddColumn(NomeDia,     "DiaSemana", each Text.Start([NomeDia], 3), type text),
-		MesAno     = Table.AddColumn(NomeDiaAbr,  "MesAno",    each Text.Combine({[NomeMes], "-", Number.ToText(Date.Year([DataBase]))}), type text),
+		MesAno     = Table.AddColumn(NomeDiaAbr,  "MesAno",    each Text.Combine({[NomeMes], "-", Text.End(Number.ToText(Date.Year([DataBase])), 2)}), type text),
 		AnoMes     = Table.AddColumn(MesAno,      "AnoMes",    each if Date.Month([DataBase]) < 10 
                                                                     then Text.Combine({Number.ToText(Date.Year([DataBase])), "-0", Number.ToText(Date.Month([DataBase]))})
                                                                     else Text.Combine({Number.ToText(Date.Year([DataBase])), "-",  Number.ToText(Date.Month([DataBase]))}), type text),
