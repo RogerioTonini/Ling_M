@@ -1,4 +1,10 @@
-
+/*
+Script Desenvolvido por Joviano Silveira
+Objetivo: Concatenar texto de várias linhas em uma Única
+https://joviano.com/
+Canal: YOUTUBE
+Data: 24/12/2020
+*/
 
 let
     Fonte = Excel.CurrentWorkbook(){[Name="_CT2010"]}[Content],
