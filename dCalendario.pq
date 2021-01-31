@@ -26,11 +26,11 @@ DataMax = List.Max(Fato1[Data] & Fato2[Data]),
 --------------------------------------------------------------------------------
 */
 
-(DataMin as date, DataMax as date) =>
+(DataInicio as date, DataFim as date) =>
 
 let
-    DataMin     = List.Min(fDados[Data]),
-    DataMax     = List.Max(fDados[Data]),
+    DataMin     = List.Min(DataInicio),
+    DataMax     = List.Max(DataFim),
     DataInicial = #date(Date.Year(DataMin), 1, 1),
     DataFinal   = #date(Date.Year(DataMax), Date.Month(DataMax), Date.Day(DataMax)),
     Duracao     = Duration.Days(DataFinal - DataInicial) + 1,
