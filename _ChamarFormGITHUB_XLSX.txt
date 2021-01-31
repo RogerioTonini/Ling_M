@@ -5,7 +5,11 @@ let
     // lendo o binario do conteudo
     script = Text.FromBinary(GIT),
 
-    // executando
+    /*
+    O comando #shared sozinho traz a documentação doPower Query
+    
+    Executando
+    */
     run = Expression.Evaluate(script, #shared)
 
 in
