@@ -5,7 +5,7 @@ let
     //
     DATAB - LAENDDER ALVES - YOUTUBE - 24/08/2020
     */
-    FonteDados             = Excel.Workbook(File.Contents("D:\Users\rtoni\OneDrive\Bkp-Users\Documentos\DadosEmBranco.xlsx"), null, true),
+    FonteDados             = Excel.Workbook(File.Contents(caminho do arquivo), null, true),
     dNomes_Table           = Fonte{[Item="dNomes",Kind="Table"]}[Data],
     Tabela_Origem          = Table.TransformColumnTypes(dNomes_Table,{{"ID_Codigo", Int64.Type}, {"Nome", type text}}),
     Lst_fDestino_Id_Nome   = List.Distinct(fDestino[Id_CodNome]),
