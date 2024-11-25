@@ -15,7 +15,7 @@
 let
      SelecionaVariavel = 
         Table.SelectRows(
-            Parametros, 
+           dParametros, 
             each 
                 [Parametros] = _strParametro),
 
