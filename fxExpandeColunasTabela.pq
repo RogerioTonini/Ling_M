@@ -1,28 +1,61 @@
 (
-    Tabela as table,
-    NomeDaColunaComTabelas as text
-) =>
+    _NomeTabela      as table,
+    _NomeColunaDados as text
+)  as table =>
 
 let
-    Colunas = 
-        List.Buffer(
-            List.Union(
-                List.Transform(
-                    Table.Column(
-                        Tabela,
-                        NomeDaColunaComTabelas
-                    ),
-                    each Table.ColumnNames(_)
-                )
-            )
+    // Lista que contém os arquivos importados em forma de Tabela
+    Etapa1 =
+        Table.Column(
+            _NomeTabela,
+            _NomeColunaDados
         ),
-    
-    Out =
+
+    // Converte as Tabelas para Listas e ao invés dos Dados, captura o nome das Colunas
+    Etapa2 =
+        List.Transform(
+            Etapa1,
+            each Table.ColumnNames(_)
+        ),
+
+    // Cria uma Lista contendo o Nome de todas as colunas
+    ListaNomeColunas =
+        List.Union(
+            Etapa2
+        ),
+
+    Saida =
         Table.ExpandTableColumn(
-            Tabela,
-            NomeDaColunaComTabelas,
-            Colunas,
-            Colunas
+            _NomeTabela,
+            _NomeColunaDados,
+            ListaNomeColunas,
+            ListaNomeColunas
         )
 in
-    Out
+    Saida
+
+
+
+// let
+    // Colunas = 
+        // List.Buffer(
+            // List.Union(
+                // List.Transform(
+                    // Table.Column(
+                        // Tabela,
+                        // NomeDaColunaComTabelas
+                    // ),
+                    // each Table.ColumnNames(_)
+                // )
+            // )
+        // ),
+    
+    // Out =
+        // Table.ExpandTableColumn(
+            // Tabela,
+            // NomeDaColunaComTabelas,
+            // Colunas,
+            // Colunas
+        // )
+// in
+    // Out
