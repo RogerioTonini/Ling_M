@@ -36,6 +36,9 @@ Alterações:
             3 - Adequação do tamanho (bits) das colunas tipo Int.
 ----------------------------------------------------------------------------------------------------------------------------------
 */
+(
+    _DataInicio
+) =>
 let
     _DataInicial = 
         #date( Date.Year( _DataInicio ), Date.Month( _DataInicio ), Date.Day( _DataInicio ) ),
