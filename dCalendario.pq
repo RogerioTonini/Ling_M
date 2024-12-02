@@ -1,6 +1,6 @@
 let
     _DataInicial = 
-        #date( _AnoInicio,  1, 1 ),
+        #date( _AnoInicio, 1, 1 ),
 
     _DataFinal = 
         Date.EndOfYear( 
