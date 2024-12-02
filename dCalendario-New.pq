@@ -1,3 +1,6 @@
+(
+    _DataInicio as date
+) as table =>
 let
     _DataInicial = 
         #date( 
