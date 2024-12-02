@@ -1,9 +1,13 @@
 let
     _DataInicial = 
-        #date( Date.Year( _DataInicio ), Date.Month( _DataInicio ), Date.Day( _DataInicio ) ),
+        #date( Date.Year( _AnoInicio ),  1, 1 ),
 
     _DataFinal = 
-        Date.EndOfYear( Date.From( DateTime.LocalNow() ) ),
+        Date.EndOfYear( 
+            Date.From( 
+                DateTime.LocalNow() 
+            ) 
+        ),
 
     _Duracao = 
         Duration.Days(_DataFinal - _DataInicial) + 1,
@@ -14,9 +18,10 @@ let
                 List.Dates( 
                     _DataInicial, 
                     _Duracao, 
-                    #duration(1, 0, 0, 0) 
+                    #duration( 1, 0, 0, 0 ) 
                 ), 
-            Order.Ascending ) 
+            Order.Ascending
+            ) 
         ),
 
     ___ = "",
@@ -75,9 +80,9 @@ let
                             in 
                                 if m < 0 then m + y else m,
 
-                    _DataPascoa = Date.From(
-                        Number.Round(
-                            Number.From( #date( _AnoData, 4, 1 ) ) / 7 + fxModExcel( 19 * fxModExcel( _AnoData, 19 ) - 7, 30 ) * 0.14, 0, RoundingMode.Up ) * 7 - 6
+                    _DataPascoa = 
+                        Date.From(
+                            Number.Round( Number.From( #date( _AnoData, 4, 1 ) ) / 7 + fxModExcel( 19 * fxModExcel( _AnoData, 19 ) - 7, 30 ) * 0.14, 0, RoundingMode.Up ) * 7 - 6
                         ),
 
                     _LstFeriados = 
@@ -99,8 +104,8 @@ let
                                 Date.From( Number.From( _DataPascoa ) - 47 ),  // Terça-feira de Carnaval
                                 Date.From( Number.From( _DataPascoa ) -  2 ),  // Sexta-Feira Santa
                                 _DataPascoa,                                   // Páscoa
-                                Date.From( Number.From( _DataPascoa ) + 60 )   // Corpus Christi
-                                // Date.From( Number.From( _DataPascoa ) - 46 ),  // Quarta-feira de Cinzas
+                                Date.From( Number.From( _DataPascoa ) + 60 ),   // Corpus Christi
+                                Date.From( Number.From( _DataPascoa ) - 46 )   // Quarta-feira de Cinzas
                             },
                             _Data
                         )
@@ -119,12 +124,12 @@ let
                     // Verifica se o ano é Bissexto
                     Date.AddDays(
                         _DataAnoAnterior, 
-                        if Number.Mod( Date.Year( _DataAnoAnterior ), 4) = 0 then 2 else 1
+                        if Number.Mod( Date.Year( _DataAnoAnterior ), 4 ) = 0 then 2 else 1
                     )
             }
         ),
 
-    ListaParaTabela = 
+     ListaParaTabela = 
         #table(
             type table [
                 #"ID_DataBase"     = Int32.Type,    // Faixa de números: -2.147.483.648 a 2.147.483.647
@@ -161,4 +166,4 @@ let
             AdicionarColunas
         )
 in
-    Table.Buffer(ListaParaTabela)
+    ListaParaTabela
