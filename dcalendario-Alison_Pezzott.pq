@@ -1,6 +1,6 @@
 let 
     //Especifique a data inicial 
-    dataInicial = #date ( 2024, 1, 1 ), 
+    dataInicial = #date ( _AnoInicio, 1, 1 ), 
 
     //Especifique a data final. Padrão: Final do ano atual 
     dataFinal = Date.EndOfYear ( Date.From ( DateTime.LocalNow ( ) ) ), 
