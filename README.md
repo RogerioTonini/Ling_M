@@ -22,13 +22,9 @@ Biblioteca Linguagem M
 <p> - Cálculo Feriados Móveis - Referências:
 <p>     Fórmula EXCEL: ARRED( DATA( A1; 4; 1 ) / 7 + MOD( 19 * MOD( A1; 19 ) - 7; 30 ) * 14%; 0 ) * 7 - 6 
 <p> - Ordenar no Modelo Semântico
-<p>     +-----------------+-------------+
-<p>     | Coluna Ordenar  | Pela Coluna |
-<p>     +-----------------+-------------+
-<p>     | DiaSem_Letra    | DiaSem_Num  |
-<p>     | MesNomeAbrv_Ano | AnoMes_Num  |
-<p>     | MesNomeExt_Ano  | AnoMes_Num  |
-<p>     +-----------------+-------------+
+<p>     Coluna: DiaSem_Letra    ordenarda pela coluna:  DiaSem_Num
+<p>     Coluna: MesNomeAbrv_Ano ordenarda pela coluna:  AnoMes_Num
+<p>     Coluna: MesNomeExt_Ano  ordenarda pela coluna:  AnoMes_Num
 <p> ----------------------------------------------------------------------------------------------------------------------------------
 <p> Alterações:
 <p> 16/10/2020 - Adequação de nome de colunas
