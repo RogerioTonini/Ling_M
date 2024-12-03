@@ -1,4 +1,3 @@
-( ) as table =>
 let
     FonteDados =
         Table.SelectRows(
@@ -28,10 +27,16 @@ let
                 )
         ),
 
+    ColunaMantida = 
+        Table.SelectColumns(
+            ADD_ColConteudoArquivo,
+            {"ConteudoArquivos"}
+        ),
+
     _DadosExpandidos_ = 
         Table.Buffer(
             fxExpandeColunasTabela(
-                ADD_ColConteudoArquivo, 
+                ColunaMantida, 
                 "ConteudoArquivos"
             )
         )
