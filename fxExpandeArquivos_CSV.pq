@@ -1,3 +1,7 @@
+(
+    __PathFiles as text
+) as table =>
+
 let
     FonteDados =
         Table.SelectRows(
