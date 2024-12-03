@@ -1,3 +1,36 @@
+/* 
+-------------------------------------------------------------------------------------------------------------------------------
+Script.....: Criação Tabela Calendário
+Autor......: Wanderlei Hüttel - https://www.linkedin.com/in/wanderleihuttel / https://github.com/wanderleihuttel/powerbi
+Alterações.: Rogerio Tonini   - https://www.linkedin.com/in/rogerio-tonini / https://github.com/RogerioTonini
+----------------------------------------------------------------------------------------------------------------------------------
+Referências :
+- Literatura Estudos:
+    Alison Pezzott...: https://www.youtube.com/@fluentebi
+    Benito Savastano.: https://www.youtube.com/watch?v=Y6E-zZjg7y8&t=104s&ab_channel=Jo%C3%A3oBenitoSavastano
+    Joviano Silveira.: https://joviano.com/blog/ / https://cursos.joviano.com/m/courses
+    XPERIUN..........: https://app.xperiun.com/entrar
+- Literatura histórica / técnica:
+    UFRGS.....: https://www.inf.ufrgs.br/~cabral/Pascoa.html
+    Wikipedia.: https://pt.wikipedia.org/wiki/C%C3%A1lculo_da_P%C3%A1scoa#:~:text=A%20P%C3%A1scoa%20%C3%A9%20celebrada%20no,do%20m%C3%AAs%20lunar%20de%20Nissan.
+----------------------------------------------------------------------------------------------------------------------------------
+Informações diversas :
+- Cálculo Feriados Móveis - Referências:
+    Fórmula EXCEL: ARRED( DATA( A1; 4; 1 ) / 7 + MOD( 19 * MOD( A1; 19 ) - 7; 30 ) * 14%; 0 ) * 7 - 6 
+- Ordenar no Modelo Semântico
+    Coluna: DiaSem_Letra    ordenarda pela coluna:  DiaSem_Num
+    Coluna: MesNomeAbrv_Ano ordenarda pela coluna:  AnoMes_Num
+    Coluna: MesNomeExt_Ano  ordenarda pela coluna:  AnoMes_Num
+----------------------------------------------------------------------------------------------------------------------------------
+Alterações:
+16/10/2020 - Adequação de nome de colunas
+10/01/2021 - Criação da coluna MesesDecorridos - Demonstrar qtde de meses decorridos entre a data atual e a mais antiga.
+01/12/2024 - Script refatorado: 
+            1 - Inclusão das colunas: DiasDecorridos, Quadrimestre, Feriados e Dia no Ano Anterior,
+            2 - Atualização da documentação no script
+            3 - Adequação do tamanho (bits) das colunas tipo Int.
+----------------------------------------------------------------------------------------------------------------------------------
+*/
 let
     _DataInicial = 
         #date( _AnoInicio, 1, 1 ),
