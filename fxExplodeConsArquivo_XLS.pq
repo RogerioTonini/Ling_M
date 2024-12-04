@@ -1,14 +1,14 @@
 (
-    __CaminhoArquivo as text,
-    __NomeDoArquivo  as text,
-    __TipoDaConsulta as text
+    _CaminhoArquivo as text,
+    _NomeDoArquivo  as text,
+    _TipoDaConsulta as text
 ) as table =>
 
 let
     Source = 
         Table.SelectRows(
-            Folder.Files( __CaminhoArquivo ), 
-            each [Name] = __NomeDoArquivo 
+            Folder.Files( _CaminhoArquivo ), 
+            each [Name] = _NomeDoArquivo 
         ),
 
     RemoveColunas = 
@@ -39,6 +39,6 @@ in
     Table.Buffer(
         Table.SelectRows(
             ExpandeDados, 
-            each [Kind] = __TipoDaConsulta
+            each [Kind] = _TipoDaConsulta
         )
     )
