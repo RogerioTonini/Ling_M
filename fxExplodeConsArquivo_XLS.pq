@@ -1,6 +1,6 @@
 (
     __CaminhoArquivo as text,
-    __NomeArquivo    as text,
+    __NomeDoArquivo  as text,
     __TipoDaConsulta as text
 ) as table =>
 
