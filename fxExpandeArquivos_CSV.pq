@@ -5,7 +5,7 @@
 let
     FonteDados =
         Table.SelectRows(
-            Folder.Files( _CaminhoArquivo ),
+            Folder.Files( __PathFiles ),
             each [Extension] = _ExtensaoArquivos
         ),
 
