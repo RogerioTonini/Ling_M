@@ -1,36 +1,3 @@
-/* 
--------------------------------------------------------------------------------------------------------------------------------
-Script.....: Criação Tabela Calendário
-Autor......: Wanderlei Hüttel - https://www.linkedin.com/in/wanderleihuttel / https://github.com/wanderleihuttel/powerbi
-Alterações.: Rogerio Tonini   - https://www.linkedin.com/in/rogerio-tonini / https://github.com/RogerioTonini
-----------------------------------------------------------------------------------------------------------------------------------
-Referências :
-- Literatura Estudos:
-    Alison Pezzott...: https://www.youtube.com/@fluentebi
-    Benito Savastano.: https://www.youtube.com/watch?v=Y6E-zZjg7y8&t=104s&ab_channel=Jo%C3%A3oBenitoSavastano
-    Joviano Silveira.: https://joviano.com/blog/ / https://cursos.joviano.com/m/courses
-    XPERIUN..........: https://app.xperiun.com/entrar
-- Literatura histórica / técnica:
-    UFRGS.....: https://www.inf.ufrgs.br/~cabral/Pascoa.html
-    Wikipedia.: https://pt.wikipedia.org/wiki/C%C3%A1lculo_da_P%C3%A1scoa#:~:text=A%20P%C3%A1scoa%20%C3%A9%20celebrada%20no,do%20m%C3%AAs%20lunar%20de%20Nissan.
-----------------------------------------------------------------------------------------------------------------------------------
-Informações diversas :
-- Cálculo Feriados Móveis - Referências:
-    Fórmula EXCEL: ARRED( DATA( A1; 4; 1 ) / 7 + MOD( 19 * MOD( A1; 19 ) - 7; 30 ) * 14%; 0 ) * 7 - 6 
-- Ordenar no Modelo Semântico
-    Coluna: DiaSem_Letra    ordenarda pela coluna:  DiaSem_Num
-    Coluna: MesNomeAbrv_Ano ordenarda pela coluna:  AnoMes_Num
-    Coluna: MesNomeExt_Ano  ordenarda pela coluna:  AnoMes_Num
-----------------------------------------------------------------------------------------------------------------------------------
-Alterações:
-16/10/2020 - Adequação de nome de colunas
-10/01/2021 - Criação da coluna MesesDecorridos - Demonstrar qtde de meses decorridos entre a data atual e a mais antiga.
-01/12/2024 - Script refatorado: 
-            1 - Inclusão das colunas: DiasDecorridos, Quadrimestre, Feriados e Dia no Ano Anterior,
-            2 - Atualização da documentação no script
-            3 - Adequação do tamanho (bits) das colunas tipo Int.
-----------------------------------------------------------------------------------------------------------------------------------
-*/
 let
     _DataInicial = 
         #date( _AnoInicio, 1, 1 ),
@@ -72,29 +39,36 @@ let
                 // DiaSem_Letra - Character.FromNumber(8203) - caractere invísivel (zero-width spacing )
                 Text.Repeat( Character.FromNumber(8203), 6 -  Date.DayOfWeek( _ ) ) & Text.Start( Text.Proper( Date.ToText( _, "ddd", Culture.Current) ), 1 ),
 
-                Text.Proper( Date.ToText( _,"ddd", Culture.Current ) ),   // DiaSem_Abrv
-                Text.Proper( Date.DayOfWeekName( _ ) ),                   // DiaSem_Ext
-                Text.PadStart( Number.ToText( Date.Day( _ ) ), 2, " " ),  // Dia_TXT
-                Date.Day( _ ),                                            // Dia_Num
-                Date.Month( _ ),                                          // Mes_Num
-                Date.Year( _ ),                                           // Ano_Num
-                Date.DaysInMonth( _ ),                                    // QtdDiasMes
-                Text.Proper( Date.ToText( _, "MMM", Culture.Current) ),   // MesNome_Abrv
-                Text.Proper( Date.MonthName( _ ) ),                       // MesNome_Ext
-                Text.Proper( Date.ToText(_, "MMM/yyyy") ),                // MesNomeAbrv_Ano
-                Text.Proper( Date.ToText(_, "MMMM/yyyy") ),               // MesNomeExt_Ano
-                Date.WeekOfMonth( _ ),                                    // SemanaMes
-                Date.WeekOfYear( _ ),                                     // SemanaAno
-                Number.RoundUp( Date.Month( _ ) / 2 ),                    // Bimestre
-                Date.QuarterOfYear( _ ),                                  // Trimestre
-                Number.RoundUp( Date.Month( _ ) / 4 ),                    // Quadrimestre 
-                Number.RoundUp( Date.Month( _ ) / 6 ),                    // Semestre
+                Text.Proper( Date.ToText( _,"ddd", Culture.Current ) ),                   // DiaSem_Abrv
+                Text.Proper( Date.DayOfWeekName( _ ) ),                                   // DiaSem_Ext
+                Text.PadStart( Number.ToText( Date.Day( _ ) ), 2, " " ),                  // Dia_TXT
+                Date.Day( _ ),                                                            // Dia_Num
+                Date.Month( _ ),                                                          // Mes_Num
+                Text.Start( Text.Proper( Date.ToText( _, "MMM", Culture.Current) ), 1 ),  // MesNome_Letra
+                Text.Proper( Date.ToText( _, "MMM", Culture.Current) ),                   // MesNome_Abrv
+                Text.Proper( Date.MonthName( _ ) ),                                       // MesNome_Ext
+                Text.Proper( Date.ToText(_, "MMM-yyyy") ),                                // MesNomeAbrv_Ano
+                Text.Proper( Date.ToText(_, "MMMM-yyyy") ),                               // MesExt_Ano
+                Date.Year( _ ),                                                           // Ano_Num
+                Date.DaysInMonth( _ ),                                                    // QtdDiasMes
+                Date.WeekOfMonth( _ ),                                                    // SemanaMes
+                Date.WeekOfYear( _ ),                                                     // SemanaAno
+                Number.RoundUp( Date.Month( _ ) / 2 ),                                    // Bimestre
+                Date.QuarterOfYear( _ ),                                                  // Trimestre
+                Number.RoundUp( Date.Month( _ ) / 4 ),                                    // Quadrimestre 
+                Number.RoundUp( Date.Month( _ ) / 6 ),                                    // Semestre
 
                 // DiasDecorridos - Qtde de dias decorridos desde a data inicial e a data final
                 Number.RoundUp( Number.From ( _ ) -  Number.From( DateTime.LocalNow() ) ),
 
                 // MesesDecorridos - Qtde de meses decorridos desde a data inicial e a final
                 ( ( ( ( Date.Year( _DataFinal ) - Date.Year( _ ) ) * 12) + ( Date.Month( _DataFinal ) ) ) - Date.Month( _ ) ),
+                Date.StartOfMonth( _ ),      // DataMesInicio 
+                Date.EndOfMonth( _ ),        // DataMesFim 
+                Date.StartOfQuarter( _ ),    // DataTrimestreInicio 
+                Date.EndOfQuarter( _ ),      // DataTrimestreFim
+                Date.StartOfYear( _ ),       // DataAnoInicio
+                Date.EndOfYear( _ ),         // DataAnoFim 
 
                 // DiaUtil
                 let
@@ -137,7 +111,7 @@ let
                                 Date.From( Number.From( _DataPascoa ) - 47 ),  // Terça-feira de Carnaval
                                 Date.From( Number.From( _DataPascoa ) -  2 ),  // Sexta-Feira Santa
                                 _DataPascoa,                                   // Páscoa
-                                Date.From( Number.From( _DataPascoa ) + 60 ),   // Corpus Christi
+                                Date.From( Number.From( _DataPascoa ) + 60 ),  // Corpus Christi
                                 Date.From( Number.From( _DataPascoa ) - 46 )   // Quarta-feira de Cinzas
                             },
                             _Data
@@ -145,9 +119,15 @@ let
                 in 
                     if _LstFinalDeSemana or _LstFeriados then false else true,
 
-                if Date.From( DateTimeZone.SwitchZone( DateTimeZone.UtcNow(), -3) ) <> _  then false else true,   // DiaCorrente
-                if not ( Date.IsInCurrentMonth( _ ) and Date.IsInCurrentYear( _ ) ) then false else true,         // MesCorrente
-                if not Date.IsInCurrentYear( _ ) then false else true,                                            // AnoCorrente
+                // if Date.IsInCurrentDay <> Date.Day( _ )                              then false else true,   // DiaCorrente
+                // if not ( Date.IsInCurrentMonth( _ ) and Date.IsInCurrentYear( _ ) )  then false else true,   // MesCorrente
+                // if not Date.IsInCurrentYear( _ )                                     then false else true,   // AnoCorrente
+
+                // // Data Corrente - [0] - Passado, [1] - DataCorrnte, [2] - Futuro
+                // let
+                //     _DataCorrente = Date.From( DateTimeZone.SwitchZone( DateTimeZone.UtcNow(), -3) )
+                // in
+                //     if _ < _DataCorrente then 0 else if _ = _DataCorrente then 1 else 2,
 
                 // DataAnoAnterior
                 let
@@ -165,36 +145,44 @@ let
      ListaParaTabela = 
         #table(
             type table [
-                #"ID_DataBase"     = Int32.Type,    // Faixa de números: -2.147.483.648 a 2.147.483.647
-                #"DataBase_Serial" = Int32.Type,
-                #"AnoMes_Num"      = Int32.Type,
-                #"DataBase"        = date,
-                #"DiaSem_Num"      = Int8.Type,     // Faixa de números: -128 a 128
-                #"DiaSem_Letra"    = text,
-                #"DiaSem_Abrv"     = text,
-                #"DiaSem_Ext"      = text,
-                #"Dia_TXT"         = text,
-                #"Dia_Num"         = Int8.Type,
-                #"Mes_Num"         = Int8.Type,
-                #"Ano_Num"         = Int16.Type,    // Faixa de números: -32.767 a 32.767
-                #"QtdDiasMes"      = Int16.Type,
-                #"MesNome_Abrv"    = text,
-                #"MesNome_Ext"     = text,
-                #"MesNomeAbrv_Ano" = text,
-                #"MesNomeExt_Ano"  = text,
-                #"SemanaMes"       = Int8.Type,
-                #"SemanaAno"       = Int8.Type,
-                #"Bimestre"        = Int16.Type,
-                #"Trimestre"       = Int8.Type,
-                #"Quadrimestre"    = Int8.Type,
-                #"Semestre"        = Int8.Type,
-                #"DiasDecorridos"  = Int16.Type,
-                #"MesesDecorridos" = Int16.Type,
-                #"DiaUtil"         = logical,
-                #"DiaCorrente"     = logical,
-                #"MesCorrente"     = logical,
-                #"AnoCorrente"     = logical,
-                #"DataAnoAnterior" = date
+                #"ID_DataBase"         = Int32.Type,    // Faixa de números: -2.147.483.648 a 2.147.483.647
+                #"DataBase_Serial"     = Int32.Type,
+                #"AnoMes_Num"          = Int32.Type,
+                #"DataBase"            = date,
+                #"DiaSem_Num"          = Int8.Type,     // Faixa de números: -128 a 128
+                #"DiaSem_Letra"        = text,
+                #"DiaSem_Abrv"         = text,
+                #"DiaSem_Ext"          = text,
+                #"Dia_TXT"             = text,
+                #"Dia_Num"             = Int8.Type,
+                #"Mes_Num"             = Int8.Type,
+                #"MesNome_Letra"       = text,
+                #"MesNome_Abrv"        = text,
+                #"MesNome_Ext"         = text,
+                #"MesNomeAbrv_Ano"     = text,
+                #"MesNomeExt_Ano"      = text,
+                #"Ano_Num"             = Int16.Type,    // Faixa de números: -32.767 a 32.767
+                #"QtdDiasMes"          = Int16.Type,
+                #"SemanaMes"           = Int8.Type,
+                #"SemanaAno"           = Int8.Type,
+                #"Bimestre"            = Int16.Type,
+                #"Trimestre"           = Int8.Type,
+                #"Quadrimestre"        = Int8.Type,
+                #"Semestre"            = Int8.Type,
+                #"DiasDecorridos"      = Int16.Type,
+                #"MesesDecorridos"     = Int16.Type,
+                #"DataMesInicio"       = date,
+                #"DataMesFim"          = date,
+                #"DataTrimestreInicio" = date,
+                #"DataTrimestreFim"    = date,
+                #"DataAnoInicio"       = date,
+                #"DataAnoFim"          = date,
+                #"DiaUtil"             = logical,
+                // #"DiaCorrente"         = logical,
+                // #"MesCorrente"         = logical,
+                // #"AnoCorrente"         = logical,
+                // #"DataCorrente"        = Int8.Type,
+                #"DataAnoAnterior"     = date
             ],
             AdicionarColunas
         )
