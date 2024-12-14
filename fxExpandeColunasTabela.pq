@@ -1,7 +1,7 @@
-(
-    _NomeTabela      as table,
-    _NomeColunaDados as text
-)  as table =>
+// (
+    // _NomeTabela      as table,
+    // _NomeColunaDados as text
+// )  as table =>
 
 let
     // Lista que contém os arquivos importados em forma de Tabela
