@@ -1,11 +1,11 @@
-(
-    __PathFiles as text
-) as table =>
+// (
+    // __PathFiles as text
+// ) as table =>
 
 let
     FonteDados =
         Table.SelectRows(
-            Folder.Files( __PathFiles ),
+            Folder.Files( _CaminhoArquivos ),
             each [Extension] = _ExtensaoArquivos
         ),
 
@@ -35,14 +35,14 @@ let
         Table.SelectColumns(
             ADD_ColConteudoArquivo,
             {"ConteudoArquivos"}
-        )/*,
+        ),
 
     _DadosExpandidos_ = 
         Table.Buffer(
-            fxExpandeColunasTabela(
+            fxExpandeColunasTabela_Teste(
                 ColunaMantida, 
                 "ConteudoArquivos"
             )
-        )*/
+        )
 in
     ColunaMantida
