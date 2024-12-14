@@ -35,7 +35,7 @@ let
         Table.SelectColumns(
             ADD_ColConteudoArquivo,
             {"ConteudoArquivos"}
-        ),
+        )/*,
 
     _DadosExpandidos_ = 
         Table.Buffer(
@@ -43,6 +43,6 @@ let
                 ColunaMantida, 
                 "ConteudoArquivos"
             )
-        )
+        )*/
 in
-    _DadosExpandidos_
+    ColunaMantida
