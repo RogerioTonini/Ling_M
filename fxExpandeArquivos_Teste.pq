@@ -1,11 +1,11 @@
-// (
-    // __PathFiles as text
-// ) as table =>
+(
+    __PathFiles as text
+) as table =>
 
 let
     FonteDados =
         Table.SelectRows(
-            Folder.Files( _CaminhoArquivos ),
+            Folder.Files( __PathFiles ),
             each [Extension] = _ExtensaoArquivos
         ),
 
