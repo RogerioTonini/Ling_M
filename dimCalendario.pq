@@ -37,7 +37,9 @@ let
                 Date.DayOfWeek( _ ) + 1,                         // DiaSem_Num
 
                 // DiaSem_Letra - Character.FromNumber(8203) - caractere invísivel (zero-width spacing )
-                Text.Repeat( Character.FromNumber(8203), 6 -  Date.DayOfWeek( _ ) ) & Text.Start( Text.Proper( Date.ToText( _, "ddd", Culture.Current) ), 1 ),
+                //Text.Repeat( Character.FromNumber(8203), 6 -  Date.DayOfWeek( _ ) ) & Text.Start( Text.Proper( Date.ToText( _, "ddd", Culture.Current) ), 1 ),
+                Text.Repeat( Character.FromNumber(8203), 6 -  Date.DayOfWeek( _ ) ) 
+                    & Text.Start( Text.Proper( Date.ToText( _, "ddd", Culture.Current) ), 1 ),
 
                 Text.Proper( Date.ToText( _,"ddd", Culture.Current ) ),                   // DiaSem_Abrv
                 Text.Proper( Date.DayOfWeekName( _ ) ),                                   // DiaSem_Ext
@@ -53,10 +55,17 @@ let
                 Date.DaysInMonth( _ ),                                                    // QtdDiasMes
                 Date.WeekOfMonth( _ ),                                                    // SemanaMes
                 Date.WeekOfYear( _ ),                                                     // SemanaAno
-                Number.RoundUp( Date.Month( _ ) / 2 ),                                    // Bimestre
-                Date.QuarterOfYear( _ ),                                                  // Trimestre
-                Number.RoundUp( Date.Month( _ ) / 4 ),                                    // Quadrimestre 
-                Number.RoundUp( Date.Month( _ ) / 6 ),                                    // Semestre
+                "B" & Text.From( Number.RoundUp( Date.Month( _ ) / 2 ) ) 
+                    & "-" & Text.From ( Date.Year( _ ) ),                                 // Bimestre
+                "T" & Text.From( Date.QuarterOfYear( _ ) )
+                    & "-" & Text.From ( Date.Year( _ ) ),                                 // Trimestre
+                "Q" & Text.From( Number.RoundUp( Date.Month( _ ) / 4 ) )
+                    & "-" & Text.From ( Date.Year( _ ) ),                                 // Quadrimestre 
+                "S" & Text.From( Number.RoundUp( Date.Month( _ ) / 6 ) )
+                    & "-" & Text.From ( Date.Year( _ ) ), 
+
+
+
 
                 // DiasDecorridos - Qtde de dias decorridos desde a data inicial e a data final
                 Number.RoundUp( Number.From ( _ ) -  Number.From( DateTime.LocalNow() ) ),
@@ -165,10 +174,10 @@ let
                 #"QtdDiasMes"          = Int16.Type,
                 #"SemanaMes"           = Int8.Type,
                 #"SemanaAno"           = Int8.Type,
-                #"Bimestre"            = Int16.Type,
-                #"Trimestre"           = Int8.Type,
-                #"Quadrimestre"        = Int8.Type,
-                #"Semestre"            = Int8.Type,
+                #"Bimestre"            = text,
+                #"Trimestre"           = text,
+                #"Quadrimestre"        = text,
+                #"Semestre"            = text,
                 #"DiasDecorridos"      = Int16.Type,
                 #"MesesDecorridos"     = Int16.Type,
                 #"DataMesInicio"       = date,
