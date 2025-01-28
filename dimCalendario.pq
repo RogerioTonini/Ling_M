@@ -5,7 +5,7 @@ let
     _DataFinal = 
         Date.EndOfYear( 
             Date.From( 
-                DateTime.LocalNow() 
+                DateTime.LocalNow()
             ) 
         ),
 
@@ -37,10 +37,8 @@ let
                 Date.DayOfWeek( _ ) + 1,                         // DiaSem_Num
 
                 // DiaSem_Letra - Character.FromNumber(8203) - caractere invísivel (zero-width spacing )
-                //Text.Repeat( Character.FromNumber(8203), 6 -  Date.DayOfWeek( _ ) ) & Text.Start( Text.Proper( Date.ToText( _, "ddd", Culture.Current) ), 1 ),
                 Text.Repeat( Character.FromNumber(8203), 6 -  Date.DayOfWeek( _ ) ) 
                     & Text.Start( Text.Proper( Date.ToText( _, "ddd", Culture.Current) ), 1 ),
-
                 Text.Proper( Date.ToText( _,"ddd", Culture.Current ) ),                   // DiaSem_Abrv
                 Text.Proper( Date.DayOfWeekName( _ ) ),                                   // DiaSem_Ext
                 Text.PadStart( Number.ToText( Date.Day( _ ) ), 2, " " ),                  // Dia_TXT
@@ -55,23 +53,25 @@ let
                 Date.DaysInMonth( _ ),                                                    // QtdDiasMes
                 Date.WeekOfMonth( _ ),                                                    // SemanaMes
                 Date.WeekOfYear( _ ),                                                     // SemanaAno
-                "B" & Text.From( Number.RoundUp( Date.Month( _ ) / 2 ) ) 
-                    & "-" & Text.From ( Date.Year( _ ) ),                                 // Bimestre
-                "T" & Text.From( Date.QuarterOfYear( _ ) )
-                    & "-" & Text.From ( Date.Year( _ ) ),                                 // Trimestre
-                "Q" & Text.From( Number.RoundUp( Date.Month( _ ) / 4 ) )
-                    & "-" & Text.From ( Date.Year( _ ) ),                                 // Quadrimestre 
-                "S" & Text.From( Number.RoundUp( Date.Month( _ ) / 6 ) )
-                    & "-" & Text.From ( Date.Year( _ ) ), 
-
-
-
+                Number.RoundUp( Date.Month( _ ) / 2 ),                                    // Número Bimestre - Usado para ordenar
+                Text.From ( Date.Year( _ ) ) & "-B" & 
+                    Text.From( Number.RoundUp( Date.Month( _ ) / 2 ) ),                   // Ano + Bimestre
+                Date.QuarterOfYear( _ ),                                                  // Número Trimestre - Usado para ordenar
+                Text.From ( Date.Year( _ ) ) & "-T" & 
+                    Text.From( Date.QuarterOfYear( _ ) ),                                 // Ano + Trimestre
+                Number.RoundUp( Date.Month( _ ) / 4 ),                                    // Número Quadrimestre - Usado para ordenar
+                Text.From ( Date.Year( _ ) ) & "-Q" & 
+                    Text.From( Number.RoundUp( Date.Month( _ ) / 4 ) ),                   // Ano + Quadrimestre 
+                Number.RoundUp( Date.Month( _ ) / 6 ),                                    // Número Semestre - Usado para ordenar
+                Text.From ( Date.Year( _ ) ) & "-S" &
+                    Text.From( Number.RoundUp( Date.Month( _ ) / 6 ) ),                   // Ano + Semestre
 
                 // DiasDecorridos - Qtde de dias decorridos desde a data inicial e a data final
                 Number.RoundUp( Number.From ( _ ) -  Number.From( DateTime.LocalNow() ) ),
 
                 // MesesDecorridos - Qtde de meses decorridos desde a data inicial e a final
                 ( ( ( ( Date.Year( _DataFinal ) - Date.Year( _ ) ) * 12) + ( Date.Month( _DataFinal ) ) ) - Date.Month( _ ) ),
+                
                 Date.StartOfMonth( _ ),      // DataMesInicio 
                 Date.EndOfMonth( _ ),        // DataMesFim 
                 Date.StartOfQuarter( _ ),    // DataTrimestreInicio 
@@ -128,16 +128,6 @@ let
                 in 
                     if _LstFinalDeSemana or _LstFeriados then false else true,
 
-                // if Date.IsInCurrentDay <> Date.Day( _ )                              then false else true,   // DiaCorrente
-                // if not ( Date.IsInCurrentMonth( _ ) and Date.IsInCurrentYear( _ ) )  then false else true,   // MesCorrente
-                // if not Date.IsInCurrentYear( _ )                                     then false else true,   // AnoCorrente
-
-                // // Data Corrente - [0] - Passado, [1] - DataCorrnte, [2] - Futuro
-                // let
-                //     _DataCorrente = Date.From( DateTimeZone.SwitchZone( DateTimeZone.UtcNow(), -3) )
-                // in
-                //     if _ < _DataCorrente then 0 else if _ = _DataCorrente then 1 else 2,
-
                 // DataAnoAnterior
                 let
                     _DataAnoAnterior = 
@@ -174,9 +164,13 @@ let
                 #"QtdDiasMes"          = Int16.Type,
                 #"SemanaMes"           = Int8.Type,
                 #"SemanaAno"           = Int8.Type,
+                #"Bimestre_Num"        = Int8.Type,
                 #"Bimestre"            = text,
+                #"Trimestre_Num"        = Int8.Type,
                 #"Trimestre"           = text,
+                #"Quadrimestre_Num"    = Int8.Type,
                 #"Quadrimestre"        = text,
+                #"Semestre_Num"        = Int8.Type,
                 #"Semestre"            = text,
                 #"DiasDecorridos"      = Int16.Type,
                 #"MesesDecorridos"     = Int16.Type,
@@ -187,10 +181,6 @@ let
                 #"DataAnoInicio"       = date,
                 #"DataAnoFim"          = date,
                 #"DiaUtil"             = logical,
-                // #"DiaCorrente"         = logical,
-                // #"MesCorrente"         = logical,
-                // #"AnoCorrente"         = logical,
-                // #"DataCorrente"        = Int8.Type,
                 #"DataAnoAnterior"     = date
             ],
             AdicionarColunas
