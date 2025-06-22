@@ -17,10 +17,11 @@ let
         Table.SelectRows(
            dParametros, 
             each 
-                [Parametros] = _strParametro),
+                Text.Upper([Parametros]) = Text.Upper(_strParametro)
+        ),
 
     _TipoColuna = 
-        SelecionaVariavel{0}[TpDado],
+        Text.Upper(SelecionaVariavel{0}[TpDado]),
 
     AlteraTpColuna = 
         Table.TransformColumnTypes(
