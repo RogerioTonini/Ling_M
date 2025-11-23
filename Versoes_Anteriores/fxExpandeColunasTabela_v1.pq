@@ -1,6 +1,6 @@
 (
-    _NomeTabela      as table,
-    _NomeColunaDados as text
+   _NomeTabela      as table,
+   _NomeColunaDados as text
 )  as table =>
 
 let
@@ -28,6 +28,7 @@ let
         Table.ExpandTableColumn(
             _NomeTabela,
             _NomeColunaDados,
+            ListaNomeColunas,
             ListaNomeColunas
         )
 in
