@@ -1,10 +1,8 @@
 let
     Rotina = 
-
-    ( _tabela as table ) as table =>
+        ( _tabela as table ) as table =>
 
     let
-
         // Define uma lista de caracteres especiais
         caracteresEspeciais = 
             Text.ToList("""'`~!@#$%^&*()-_=+[]{}|;:\,.<>?/\ #(lf)#(cr)#(tab)"),
